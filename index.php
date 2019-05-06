@@ -4,6 +4,7 @@
 	$state = $pdo->prepare($reqMessages);
 	$state->execute();
 	$messages = $state->fetchAll();
+	$messages = array_reverse($messages, TRUE);
 ?>
 
 <!DOCTYPE html>
@@ -19,33 +20,33 @@
 </head>
 	<body class="container mt-5">
 		<div class="row">
-			<div class="col-6">
-				<form method="post" action="actionPost.php">
-					<div class="row">
-						<div class="form-group col-8">
-							<input type="text" name="pseudo" class="form-control" placeholder="Pseudo">
-						</div>
-						<div class="form-group col-8">
-							<label for="msg">Message</label>
-							<textarea class="form-control" name="msg" rows="3"></textarea>
-						</div>
-					</div>
-					<button class="btn btn-primary">Envoyer</button>
-				</form>	
-			</div>
-			<div class="col-6">
+			<div class="offset-2 col-7">
 				<?php foreach ($messages as $value) : ?>
 				<?php 
 					$date = new DateTime($value['datePost']);
 					$date = $date->format('d/m/Y'); 
 				?>
-				<div class="py-2">
+				<div class="my-2 border-bottom border-secondary messages">
 					<p>
 						Posté par <strong><?= $value['pseudo'] ?></strong> le <?= $date ?><br />
 						<?= $value['msg'] ?>
 					</p>
 				</div>
 				<?php endforeach ?>
+			</div>
+			<div id="form" class="offset-2 col-7 p-md-3">
+				<form method="post" action="actionPost.php">
+					<div class="row">
+						<div class="form-group col-5">
+							<input type="text" name="pseudo" class="form-control" placeholder="Pseudo">
+						</div>
+						<div class="form-group col-12">
+							<label for="msg">Message</label>
+							<textarea class="form-control" name="msg" rows="4" placeholder="Ton text à envoyer..."></textarea>
+						</div>
+					</div>
+					<button class="btn btn-primary">Envoyer</button>
+				</form>	
 			</div>
 		</div>
 		
